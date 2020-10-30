@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>模仿淘宝筛选功能</title>
+    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+    <div id="app" class="layout">
+        <div class="goods clearfix" 
+            v-for="(goods,goodsIndex) of goodsList" 
+            :key="goods.id">
+            <div class="title">
+                {{goods.title}}:
+            </div>
+            <ul class="type-list">
+                <li class="type" 
+                    :class="{ 'active': typeIndex == goods.index }"
+                    v-for="(type,typeIndex) of goods.typeList" 
+                    :key="type"
+                    @click="addFilterHandle(typeIndex,goods,type,goodsIndex)">
+                    {{type}}
+                </li>
+            </ul>
+        </div>
+        <div class="choose-menu clearfix">
+            <div class="choosed">已选条件：</div>
+            <span class="no-choose" v-if="!showFilterGoods">暂时没有选择过滤条件</span>
+            <ul class="choosed-ul clearfix" v-if="showFilterGoods">
+                <!-- goods_key用来删除的时候用 -->
+                <li
+                    class="choose-type"
+                    v-for="(choose_type,goods_key) of filterObj"
+                >{{choose_type}}
+                    <span class="el-icon-close" 
+                            @click="delFilterGoods(goods_key)">
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./index.js"></script>
+</body>
+
+</html>
