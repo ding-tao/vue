@@ -1,0 +1,114 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+li {
+    list-style: none;
+}
+.clearfix::after{
+    content: '';
+    display: block;
+    clear: both;
+}
+
+
+.layout {
+    width: 600px;
+    border: 1px solid #ddd;
+    margin: auto;
+}
+.header {
+    height: 50px;
+    border-bottom: 1px solid #aaa;
+}
+.header .logo {
+    float: left ;
+    font-size: 40px;
+    font-weight: bold;
+    margin-left: 10px;
+    line-height: 50px;
+}
+.header .input-area {
+    float: right;
+    margin-right: 20px;
+    height: 50px;
+    line-height: 50px;
+}
+.header .input-area input {
+    outline: none;
+    width: 250px;
+    height: 30px;
+    border: 1px solid #bbb;
+    border-radius: 10px;
+    padding: 5px 5px 5px 20px;
+    box-sizing: border-box;
+}
+.header .input-area button {
+    width: 50px;
+    border: none;
+    outline: none;
+    padding: 5px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.container {
+    width: 100%;
+    margin-top: 10px;
+}
+.listTitle {
+    font-size: 25px;
+    font-weight: bold;
+}
+.thingsNum {
+    float: right;
+    margin-right: 5px;
+    font-size: 16px;
+    padding: 5px;
+    background-color: #e6e6fa;
+    border-radius: 10px;
+}
+
+.thingsList {
+    width: 100%;
+    padding: 0 5px;
+}
+.thingsList .thing {
+    width: calc(100% - 10px);
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    border-radius: 5px;
+    height: 40px;
+    line-height: 40px;
+    padding-left: 20px;
+    margin-bottom: 10px;
+    border-left: 5px solid olivedrab;
+}
+.thingsList .thing.completeThings {
+    background-color: #ddd;
+    border-left: 5px solid #888;
+}
+.thingsList .thing .choose {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 3px;
+    border: 1px solid #eee;
+    margin-right: 10px;
+}
+.thingsList .thing .choose.need {
+    background-color: olivedrab;
+}
+.thingsList .thing .choose.comp {
+    background-color: #888;
+}
+
+
+
+.thingsList .thing .delBtn {
+    float: right;
+    height: 25px;
+    margin-top: 7px;
+    margin-right: 10px;
+}
+

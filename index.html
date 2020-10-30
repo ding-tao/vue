@@ -4,47 +4,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>模仿淘宝筛选功能</title>
-    <link rel="stylesheet" href="./index.css">
-    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <title>Document</title>
+    <link rel="stylesheet" href="./idneex.css">
 </head>
 
 <body>
+
     <div id="app" class="layout">
-        <div class="goods clearfix" 
-            v-for="(goods,goodsIndex) of goodsList" 
-            :key="goods.id">
-            <div class="title">
-                {{goods.title}}:
+        <!-- 头部输入框 -->
+        <div class="header clearfix">
+            <div class="container">
+                <div class="logo">toDoList</div>
+                <div class="input-area">
+                    <!-- @input类似于v-model，可以实时追踪input里面的值，在handleInput可以通过e.target.value获取值 -->
+                    <!-- :value绑定input的value值 -->
+                    <input type="text" @input="handleInput" :value="curMask">
+                    <button @click="addMask">添加</button>
+                </div>
             </div>
-            <ul class="type-list">
-                <li class="type" 
-                    :class="{ 'active': typeIndex == goods.index }"
-                    v-for="(type,typeIndex) of goods.typeList" 
-                    :key="type"
-                    @click="addFilterHandle(typeIndex,goods,type,goodsIndex)">
-                    {{type}}
+        </div>
+        <!-- 正在或需要做的事 -->
+        <div class="container">
+            <div class="">
+                <span class="listTitle">正在进行</span>
+                <span class="thingsNum">
+                    {{ needList.length }}
+                </span>
+            </div>
+            <ul class="thingsList">
+                <li class="thing" v-for="(needItem,needItemIndex) in needList">
+                    <span 
+                        class="choose need" 
+                        @click="completeThing(needItem.title,needItem.id,needItemIndex)"
+                    ></span>
+                    <span>{{ needItem.title }}</span>
+                    <button class="delBtn" @click="delMask(needList,needItemIndex)">删除</button>
                 </li>
             </ul>
         </div>
-        <div class="choose-menu clearfix">
-            <div class="choosed">已选条件：</div>
-            <span class="no-choose" v-if="!showFilterGoods">暂时没有选择过滤条件</span>
-            <ul class="choosed-ul clearfix" v-if="showFilterGoods">
-                <!-- goods_key用来删除的时候用 -->
-                <li
-                    class="choose-type"
-                    v-for="(choose_type,goods_key) of filterObj"
-                >{{choose_type}}
-                    <span class="el-icon-close" 
-                            @click="delFilterGoods(goods_key)">
-                    </span>
+        <!-- 已经做完的事 -->
+        <div class="container">
+            <div class="">
+                <span class="listTitle">已经完成</span>
+                <span class="thingsNum">
+                    {{ completeList.length }}
+                </span>
+            </div>
+            <ul class="thingsList">
+                <li class="thing completeThings" 
+                    v-for="(completeItem,completeItemIndex) in completeList" >
+                    <span
+                        class="choose comp" 
+                        @click="needThings(completeItem.title,completeItem.id,completeItemIndex)"
+                    ></span>
+                    <span>{{ completeItem.title }}</span>
+                    <button class="delBtn" @click="delMask(completeList,completeItemIndex)">删除</button>
                 </li>
             </ul>
         </div>
     </div>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <script src="./index.js"></script>
+    <script>
+        const vm = new Vue({
+            el: '#app',
+            data: {
+                curMask: '',
+                needList: [{title:'吃饭',id:11},{title:'回家',id:22},{title:'看电影',id:13}],
+                completeList: [{title:'打车',id:14},{title:'学习',id:15}]
+            },
+            methods: {
+                handleInput(e) {
+                    this.curMask = e.target.value;
+                },
+                addMask() {
+                    // 判断curMask是否有值
+                    if (this.curMask === '') { return }
+                    // 如果有值，就把值放在needList，并设置一个随机id
+                    this.needList.push({
+                        title:this.curMask,
+                        id: Math.ceil(Math.random() * 100)
+                    });
+
+                    this.curMask = '';
+                    // console.log(this.needList);
+                    // console.log(this.completeList);
+                },
+                completeThing(thingTitle,idIndex,index) {
+                    // 把needList里面的对应的id及title赋值到completeList
+                    this.completeList.push({
+                        id:idIndex,
+                        title:thingTitle
+                    });
+                    //把needList里面的id及其title删除
+                    this.needList.splice(index,1);
+                },
+                needThings(thingTitle,idIndex,index){
+                    this.needList.push({
+                        title:thingTitle,
+                        id:idIndex
+                    });
+                    this.completeList.splice(index,1);
+                },
+                delMask(op,index){
+                    op.splice(index,1);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
